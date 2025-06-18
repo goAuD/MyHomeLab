@@ -126,13 +126,13 @@ Tuned in the darkest corners of Mordor...
 
 > *"Tuned in the darkest corners of Mordor..."*
 
-![Dashboard](images/pfsense-dashboard.png)
+<img src="https://pfsense-dashboard.png" alt="Dashboard" width="200" />
 
 <sub><i>Status of my pfSense - minimal CPU load, low memory usage, and a KEA-powered DHCP. Yes, DNS Unbound still reigns supreme.</i></sub>
 
 
 
-## Synopsis
+## Story
 This isn’t just a HomeLab project. This is an epic.
 
 An old HP laptop, once forgotten, rises again – not as a client, but as a firewall.  
