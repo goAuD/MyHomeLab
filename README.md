@@ -134,7 +134,7 @@ The hero's journey spans two interfaces: one toward the ISP, one into the heart 
 Along the way, they face mythical entities such as `dhcpd`, the `pfctl` daemon, and the fearsome `Unbound`.
 
 ## The Quest ⚔️
-- [x] Install pfSense on a 2017-ish laptop that wheezes under load
+- [x] Install pfSense (The Wall) on a 2017s laptop that wheezes under load
 - [x] Configure WAN/LAN interfaces (with some reboot rituals)
 - [x] Grant LAN devices access to the internet – *finally*
 - [x] Explore the dark arts of port forwarding
@@ -153,7 +153,7 @@ Along the way, they face mythical entities such as `dhcpd`, the `pfctl` daemon, 
 - Either in bridge mode or with DMZ pointing to pfSense.
 - Connected via Ethernet to the pfSense WAN interface.
 
-### 2. pfSense (running on an old laptop)
+### 2. pfSense
 - Serves as the main router and firewall.
 - Interfaces:
   - **WAN** → connected to ISP router.
