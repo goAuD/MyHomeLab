@@ -126,7 +126,8 @@ Tuned in the darkest corners of Mordor...
 
 > *"Tuned in the darkest corners of Mordor..."*
 
-<img src="https://pfsense-dashboard.png" alt="Dashboard" width="200" />
+<img src="pfsense-dashboard.png" alt="Dashboard" width="500" />
+
 
 <sub><i>Status of my pfSense - minimal CPU load, low memory usage, and a KEA-powered DHCP. Yes, DNS Unbound still reigns supreme.</i></sub>
 
