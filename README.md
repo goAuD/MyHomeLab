@@ -203,20 +203,21 @@ Along the way, they face mythical entities such as `dhcpd`, the `pfctl` daemon, 
 - **WiFi**: **Disabled** for security (no fallback access).
 - **Access**: No direct access from LAN devices.
 
-### 2. pfSense (running on an old HP laptop)
+### 2. pfSense (the Wall is running on a 2017 HP laptop)
 - **WAN**: USB Ethernet adapter connected to ISP router LAN.
 - **LAN**: Built-in Ethernet connected to internal switch.
 - **DHCP Server**: Active on LAN (`192.168.1.0/24` subnet).
 - **DNS Resolver/Forwarder**: Enabled (details configurable).
-- **Firewall**: Primary, all traffic routed through it.
-- **pfBlockerNG, GeoIP, DNSBL, Traffic Shaping configuration (low CPU performance - confirm further actions).**
-- **Tailscale integration in progress.**
-- **WiFi**: None – only wired interfaces.
+- **Firewall**:
+    - Primary, all traffic routed through it.
+    - PfBlockerNG, GeoIP, DNSBL, Traffic Shaping configuration (but low CPU performance - confirm further actions).
+    - Tailscale integration in progress.
+
 
 ### 3. LAN Switch
 - Simple unmanaged gigabit switch distributing wired LAN.
 
-### 4. old ZTE Router (WLAN AP)
+### 4. Recycled ZTE Router (WLAN AP)
 - **Mode**: Access Point only (no NAT or routing).
 - **DHCP**: Disabled.
 - **Purpose**: Provides WiFi to wireless clients.
@@ -250,6 +251,22 @@ In a critical failure scenario (e.g. failed update, hardware corruption, misconf
 | Diagnostics     | PRTG monitoring system                  | Ongoing           |
 
 > *Clonezilla creates a full, bootable disk image, allowing you to restore pfSense with all packages (e.g. pfBlockerNG, DNSBL, GeoIP, Tailscale, etc.) and settings intact.*
+
+### XML Configuration Backup via pfSense
+While this does not include the OS or packages, it is still an essential component for rapid rebuilds.
+
+Steps:
+
+- Go to Diagnostics - Backup & Restore
+- Select Download Configuration as XML
+- Optionally encrypt the file
+- Save it to your Cloud or secure external drive
+
+Restore:
+
+- Use the Web UI or console to upload your saved configuration
+
+
 
 ## Security Overview
 
