@@ -134,12 +134,11 @@ The hero's journey spans two interfaces: one toward the ISP, one into the heart 
 Along the way, they face mythical entities such as `dhcpd`, the `pfctl` daemon, and the fearsome `Unbound`.
 
 ## The Quest ⚔️
-- [x] Install pfSense (The Wall) on a 2017s laptop that wheezes under load
-- [x] Configure WAN/LAN interfaces (with some reboot rituals)
-- [x] Grant LAN devices access to the internet – *finally*
-- [x] Explore the dark arts of port forwarding
-- [x] Integrate Tailscale, Plex, DNS
-- [ ] Never reinstall again (lol, sure...)
+- [x] Install pfSense (The Wall) on a 2017s laptop that wheezes under load.
+- [x] Configure WAN/LAN interfaces (with some reboot rituals).
+- [x] Grant LAN devices access to the internet – *finally*.
+- [x] Explore the dark arts of port forwarding.
+- [ ] Never reinstall again (lol, sure...).
 
 ---
 
