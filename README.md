@@ -112,10 +112,10 @@ This is not a perfectly sterile lab, but rather a fine worked, dynamically evolv
 <h2 style="color:#8B0000;"> The Sysadmin's Verse</h2>
 
 <pre style="color:#FF4500; background-color:#1a1a1a; padding:1em; border-radius:10px; font-family:Consolas,Monaco,monospace;">
-"One Firewall to rule all them,
- One DNS to find them,
- One DHCP to bring them all,
- And in the darkness bind them."
+One Firewall to rule all them,
+One DNS to find them,
+One DHCP to bring them all,
+And in the darkness bind them.
 </pre>
 
 *A pfSense tale where NAT and DHCP rules reign supreme - and only one sysadmin apprentice stands between order and chaos.*
