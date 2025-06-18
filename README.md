@@ -107,31 +107,24 @@ This is not a perfectly sterile lab, but rather a fine worked, dynamically evolv
 
 ---
 
-<h2 style="color:#8B0000;">🧙‍♂️ The Sysadmin's Verse</h2>
+# Lord of the Rules: The Two Interfaces |pfSense| 🧙‍♂
+
+<h2 style="color:#8B0000;"> The Sysadmin's Verse</h2>
 
 <pre style="color:#FF4500; background-color:#1a1a1a; padding:1em; border-radius:10px; font-family:Consolas,Monaco,monospace;">
-One Firewall to rule all them,
-One DNS to find them,
-One DHCP to bring them all,
-And in the darkness bind them.
+"One Firewall to rule all them,
+ One DNS to find them,
+ One DHCP to bring them all,
+ And in the darkness bind them."
 </pre>
-
-<p style="color:gray; font-style:italic;">
-Tuned in the darkest corners of Mordor...
-</p>
 
 *A pfSense tale where NAT and DHCP rules reign supreme - and only one sysadmin apprentice stands between order and chaos.*
 
-# pfSense Dashboard Snapshot
+<img src="pfsense-dashboard.png" alt="Dashboard" width="500" />
 
 > *"Tuned in the darkest corners of Mordor..."*
 
-<img src="pfsense-dashboard.png" alt="Dashboard" width="500" />
-
-
 <sub><i>Status of my pfSense - minimal CPU load, low memory usage, and a KEA-powered DHCP. Yes, DNS Unbound still reigns supreme.</i></sub>
-
-
 
 ## Story
 This isn’t just a HomeLab project. This is an epic.
@@ -140,7 +133,7 @@ An old HP laptop, once forgotten, rises again – not as a client, but as a fire
 The hero's journey spans two interfaces: one toward the ISP, one into the heart of the LAN.  
 Along the way, they face mythical entities such as `dhcpd`, the `pfctl` daemon, and the fearsome `nbound`.
 
-## ⚔️ The Quest
+## The Quest ⚔️
 - [x] Install pfSense on a 2017-ish laptop that wheezes under load
 - [x] Configure WAN/LAN interfaces (with some reboot rituals)
 - [x] Grant LAN devices access to the internet – *finally*
@@ -195,9 +188,85 @@ Along the way, they face mythical entities such as `dhcpd`, the `pfctl` daemon, 
 
 ---
 
-### 🔁 Traffic Flow Summary
+### Traffic Flow Summary 🔁
 
 [Internet] → [ISP Router] → [pfSense WAN] → [pfSense LAN] → [Switch] → [PC / AP] → [Wi-Fi tools]
+
+<sub><i>*...but seriously now:*</i></sub>
+
+## Component Details
+
+### 1. ISP Router
+- **NAT**: Enabled – it's fine, as it only NATs traffic to pfSense.
+- **DMZ**: Points to pfSense WAN IP – all ports are forwarded automatically.
+- **DHCP**: Only active on its own LAN; pfSense gets WAN IP from here.
+- **WiFi**: **Disabled** for security (no fallback access).
+- **Access**: No direct access from LAN devices.
+
+### 2. pfSense (running on an old HP laptop)
+- **WAN**: USB Ethernet adapter connected to ISP router LAN.
+- **LAN**: Built-in Ethernet connected to internal switch.
+- **DHCP Server**: Active on LAN (`192.168.1.0/24` subnet).
+- **DNS Resolver/Forwarder**: Enabled (details configurable).
+- **Firewall**: Primary, all traffic routed through it.
+- **pfBlockerNG, Tailscale integration**: In progress.
+- **WiFi**: None – only wired interfaces.
+
+### 3. LAN Switch
+- Simple unmanaged gigabit switch distributing wired LAN.
+
+### 4. old ZTE Router (WLAN AP)
+- **Mode**: Access Point only (no NAT or routing).
+- **DHCP**: Disabled.
+- **Purpose**: Provides WiFi to wireless clients.
+- **Connection**: Wired to Netgear switch, part of pfSense LAN.
+
+### 5. Win11 Pro PC (Main Server)
+- **Roles**: Plex server, Docker containers (e.g. PhotoPrism), Portainer, PRTG.
+- **Tailscale**: Connected to both LAN and mesh.
+- **Interfaces**:
+  - Physical: `Ethernet`, `Ethernet 2`.
+  - Virtual: `Docker`, `Hyper-V`, `Tailscale`, `VirtualBox`.
+- ⚠️Only `Ethernet` is the real LAN connection – others may interfere with routing or ARP.
+
+### 6. PRTG Network Monitor
+- Active monitoring of LAN and services.
+- Helped diagnose key issues (e.g., ARP problems, disconnections).
+- Currently replaces Zabbix.
+
+## pfSense Disaster Recovery Guide
+
+In a critical failure scenario (e.g. failed update, hardware corruption, misconfiguration), it is important to be able to **fully recover your pfSense system** quickly — ideally within minutes.
+
+---
+
+### Components of a Full Backup Strategy
+
+| Component       | Method                                  | Frequency        |
+|----------------|------------------------------------------|------------------|
+| System Image    | Clonezilla disk image                   | Weekly or Monthly |
+| Configuration   | pfSense XML backup (via Web UI)         | After every change |
+| Diagnostics     | PRTG monitoring system                  | Ongoing           |
+
+> *Clonezilla creates a full, bootable disk image, allowing you to restore pfSense with all packages (e.g. pfBlockerNG, DNSBL, GeoIP, Tailscale, etc.) and settings intact.*
+
+## Security Overview
+
+- **Dual Firewall**: ISP Router + pfSense, but traffic is transparently forwarded to pfSense via DMZ.
+- **ISP WiFi**: Fully disabled for added security.
+- **Only one WiFi AP**: via ZTE router in AP mode.
+- **No direct port exposure** from internet to LAN.
+- **Plex**: Accessible only via LAN and/or Tailscale mesh.
+- **Tailscale**: Running on main server and connected containers.
+- **Static IPs**: Clean setup, no conflicts.
+
+---
+
+## Summary
+
+This HomeLab setup focuses on a layered security approach, full control of LAN traffic through pfSense, and enhanced visibility with PRTG. Tailscale creates a secure mesh overlay, and Docker hosts key self-hosted apps like PhotoPrism or Plex.
+
+
 
 ---
 
@@ -208,13 +277,13 @@ Along the way, they face mythical entities such as `dhcpd`, the `pfctl` daemon, 
 
 As part of the HomeLab, I used Docker containerization to host isolated, manageable home services. During the project, I resolved several technical issues and successfully deployed several services.
 
-<img src="pfsense-dashboard.png" alt="Dashboard" width="500" />
+<img src="Docker.png" alt="Dashboard" width="500" />
 
 ## Problem:
 
 - Installed Docker and WSL2 on Windows 11, but the WSL2 initially failed to start due to misconfigured .wslconfig.
 
-## 🔨Fixing WSL `automount` Configuration:
+## Fixing WSL `automount` Configuration: 🔨
 
 > **Note:** `crossDistro = true` is **not** a valid key in the `[automount]` section, so WSL throws an unknown key error if you include it.
 
@@ -243,7 +312,7 @@ wsl
 docker compose up -d
 ```
 
->  WSL2 should now run reliably, and Docker should successfully start the container.
+> *WSL2 should now run reliably, and Docker should successfully start the container.*
 
 ## Problem:
 
@@ -254,7 +323,7 @@ docker compose up -d
 2. **Engine Startup Failure**: Shortly after, another message appears (e.g., *Fetching issue*), and the Docker engine does not become usable.
 3. **Workaround Required**: Even if Docker Desktop is manually shut down, the issue persists unless further steps are taken.
 
-## 🔨Solution:
+## Solution: 🔨
 ### To get Docker Desktop working properly again:
 
 1. Fully exit Docker Desktop (`Right-click → Quit Docker Desktop`).
@@ -325,7 +394,7 @@ It will come in handy someday🙂
 
 ---
 
-## *Logs:*
+## Logs:
 
 <details>
 <summary><strong> |08|06|2025|</strong></summary> 
