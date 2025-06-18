@@ -209,7 +209,8 @@ Along the way, they face mythical entities such as `dhcpd`, the `pfctl` daemon, 
 - **DHCP Server**: Active on LAN (`192.168.1.0/24` subnet).
 - **DNS Resolver/Forwarder**: Enabled (details configurable).
 - **Firewall**: Primary, all traffic routed through it.
-- **pfBlockerNG, Tailscale integration**: In progress.
+- **pfBlockerNG, GeoIP, DNSBL, Traffic Shaping configuration (low CPU performance - confirm further actions).**
+- **Tailscale integration in progress.**
 - **WiFi**: None – only wired interfaces.
 
 ### 3. LAN Switch
