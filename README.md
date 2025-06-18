@@ -199,12 +199,16 @@ Along the way, they face mythical entities such as `dhcpd`, the `pfctl` daemon, 
 
 [Internet] → [ISP Router] → [pfSense WAN] → [pfSense LAN] → [Switch] → [PC / AP] → [Wi-Fi tools]
 
+---
+
 <details>
 <summary><strong>  Docker - The beginning 11|06|2025</strong></summary>
 
 ---
 
-As part of the HomeLab, I used Docker containerization to host isolated, manageable home services. During the project, I resolved several technical issues and successfully deployed several services, including:
+As part of the HomeLab, I used Docker containerization to host isolated, manageable home services. During the project, I resolved several technical issues and successfully deployed several services.
+
+<img src="pfsense-dashboard.png" alt="Dashboard" width="500" />
 
 ## Problem:
 
@@ -221,7 +225,6 @@ As part of the HomeLab, I used Docker containerization to host isolated, managea
 root = /mnt/host
 options = "metadata"
 ```
-
 ---
 
 ### Restarting WSL and Docker Container
