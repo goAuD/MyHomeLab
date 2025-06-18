@@ -107,7 +107,7 @@ This is not a perfectly sterile lab, but rather a fine worked, dynamically evolv
 
 ---
 
-# Lord of the Rules: The Two Interfaces |pfSense| 🧙‍♂
+# Lord of the Rules: The Two Interfaces |pfSense| 18|06|2025 🧙‍♂
 
 <h2 style="color:#8B0000;"> The Sysadmin's Verse</h2>
 
