@@ -131,7 +131,7 @@ This isn’t just a HomeLab project. This is an epic.
 
 An old HP laptop, once forgotten, rises again – not as a client, but as a firewall.  
 The hero's journey spans two interfaces: one toward the ISP, one into the heart of the LAN.  
-Along the way, they face mythical entities such as `dhcpd`, the `pfctl` daemon, and the fearsome `nbound`.
+Along the way, they face mythical entities such as `dhcpd`, the `pfctl` daemon, and the fearsome `Unbound`.
 
 ## The Quest ⚔️
 - [x] Install pfSense on a 2017-ish laptop that wheezes under load
