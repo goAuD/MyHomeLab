@@ -2,7 +2,7 @@
 
 # **Welcome, in my HomeLab Project!**
 
-## *Details:*
+## Details:
 
 <details>
 <summary><strong>  Introduction – Who I am and what this project is about</strong></summary>
