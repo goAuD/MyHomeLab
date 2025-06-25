@@ -281,29 +281,34 @@ While this does not include the OS or packages, it is still an essential compone
 
 pfSense kept showing `192.168.0.23` in the ARP table with `(incomplete)` status – no MAC address, no obvious source. Looked like a device was trying to connect, but nothing existed on the network with that IP.
 
-### **What I tried:**  
+### **What I tried:**
+
 - Checked with `arp -a`, `tcpdump -i re0 host 192.168.0.23` – no response  
 - Despite that, ICMP traffic showed up in pfSense logs: something was pinging that IP from the LAN
 
-# **Solution:**  
+# **Solution:**
+
 Turned out it was **PRTG** still trying to ping a **nonexistent legacy device**. The sensor was still active even though the device was long gone.
 
 ✅ Deleted/disabled the sensor in PRTG → no more ghost IP in ARP.
 
 ## 2. Sticky IP–MAC Binding – 192.168.0.39 (permanent)
 
-### **Issue:**  
+### **Issue:**
+
 192.168.0.39 kept showing up in pfSense's ARP table on the WAN interface (`re0`) as `permanent`, even after I removed the static DHCP mapping.
 
-### **Initial suspicion:**  
+### **Initial suspicion:**
+
 Thought it was maybe my **Netgear GS308E switch.** I even hard-reset the switch, but the binding still showed up.
 
-## **Root cause:**  
+## **Root cause:**
 The **same IP–MAC binding was active on both routers**:  
 - The old **ISP router** had it set as a static DHCP lease  
 - The new **pfSense** setup inherited or clashed with it
 
-# **Fix:**  
+# **Fix:**
+
 Removed the static mapping from *both* routers. After that, pfSense was finally able to clear the ARP cache and release the IP properly.
 
 # Additional Notes
@@ -322,9 +327,10 @@ Removed the static mapping from *both* routers. After that, pfSense was finally 
 
 > This HomeLab setup focuses on a layered security approach, full control of LAN traffic through pfSense, and enhanced visibility with PRTG. Tailscale creates a secure mesh overlay, and Docker hosts key self-hosted apps like PhotoPrism or Plex.
 
-# USB Power Stability Investigation (pfSense USB-LAN Adapter) 25|06|2025
+# USB Power Stability Investigation 25|06|2025
 
 ## Goal
+
 To diagnose and fix the unstable USB-LAN connection (AX88179) on a pfSense router running on an older laptop, which was randomly dropping the LAN interface.
 
 ## Symptoms
@@ -348,7 +354,7 @@ I used the following command to list the USB devices and their power state:
 - ugen1.1: <AMD EHCI root HUB> at usbus1, cfg=0 md=HOST spd=HIGH (480Mbps) pwr=SAVE (0mA)
 - ugen1.4: <AX88179 Gigabit Ethernet ASIX Electronics Corp.> at usbus1, cfg=0 md=HOST spd=HIGH (480Mbps) pwr=ON (100mA)
 
-> *Note: If the interface is repeatedly disappearing, it may indicate unstable power delivery or a faulty USB port.*
+> Note: If the interface is repeatedly disappearing, it may indicate unstable power delivery or a faulty USB port.
 
 # 🛠️ Actions Taken
 
@@ -367,6 +373,84 @@ I used the following command to list the USB devices and their power state:
 - Consider replacing the USB adapter with a mini PCIe NIC or ExpressCard if available.
 - If instability persists, consider moving the pfSense install to dedicated hardware (like Protectli, Topton, etc.).
 - Add monitoring in PRTG or Zabbix for real-time link state tracking.
+
+---
+
+# 🛡️ Detecting and Identifying Brute Force Attacks in pfSense
+
+## Purpose
+To understand how to recognize and respond to brute force or suspicious login attempts on a pfSense firewall system.
+
+---
+
+## What *does not* indicate brute force:
+
+Frequent logs like these are usually **not** brute force:
+- `ue0: link state changed to DOWN/UP`
+- `php-fpm /rc.linkup`
+- `DEVD Ethernet detached/attached`
+
+These typically indicate **hardware/driver/power instability**, not attacks.
+
+---
+
+# What *can* indicate brute force:
+
+## You may suspect brute force if you observe:
+
+## Authentication Logs:
+
+Check under: `Status > System Logs > System > Authentication`
+Look for entries like: sshd[xxxx]: Failed password for invalid user admin from 192.168.1.100 port 51822 ssh2
+Or repeated entries like: webConfigurator authentication error for 'admin' from 192.168.1.100
+
+
+### 🔥 Firewall Logs:
+
+Check under: `Status > System Logs > Firewall`
+
+Suspicious patterns:
+
+- Many inbound connections from the same IP
+- Targeting ports like 22 (SSH), 443 (WebGUI), 500 (IPsec), 1194 (OpenVPN)
+- Multiple attempts using various usernames (admin, root, guest, etc.)
+
+---
+
+## Signs of Attack Behavior
+
+- Rapid connection attempts over seconds/minutes
+- Numerous failed login attempts
+- Attempts from foreign IPs (especially if not part of your own network)
+- Attempts targeting open service ports (SSH, WebGUI, VPN, etc.)
+
+---
+
+## ✅ Recommended Hardening
+
+-  **Disable SSH** if not used: `System > Advanced > Admin Access`
+-  **Restrict WebGUI to LAN only**
+-  **Use pfBlockerNG** with GeoIP blocking for WAN access
+-  Limit login attempts (WebGUI has internal delay mechanism)
+-  Use strong passwords or key-based login only
+-  Install `sshguard` or similar tools to block failed login sources (FreeBSD-compatible)
+
+---
+
+# Useful Commands
+
+To inspect logs from shell (SSH or pfSense console):
+
+- `cat /var/log/system.log`
+- `cat /var/log/auth.log`
+
+To monitor live logs:
+
+- `clog -f /var/log/system.log`
+
+# Final Tip
+
+## - Just because interfaces drop (like ue0 flapping) doesn't mean you're under attack. Always check logs from the authentication and firewall sections to confirm external brute force activity.
 
 ---
 
