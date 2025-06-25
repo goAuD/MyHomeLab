@@ -395,9 +395,10 @@ You may suspect brute force if you observe
 
 ## Authentication Logs:
 
-Check under: `Status > System Logs > System > Authentication`
-Look for entries like: sshd[xxxx]: Failed password for invalid user admin from 192.168.1.100 port 51822 ssh2
-Or repeated entries like: webConfigurator authentication error for 'admin' from 192.168.1.100
+Check under: 
+`Status > System Logs > System > Authentication`
+- Look for entries like: sshd[xxxx]: Failed password for invalid user admin from 192.168.1.100 port 51822 ssh2
+- Or repeated entries like: webConfigurator authentication error for 'admin' from 192.168.1.100
 
 ### 🔥 Firewall Logs:
 
