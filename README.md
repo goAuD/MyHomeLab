@@ -381,8 +381,6 @@ I used the following command to list the USB devices and their power state:
 ## Purpose
 To understand how to recognize and respond to brute force or suspicious login attempts on a pfSense firewall system.
 
----
-
 ## What *does not* indicate brute force:
 
 Frequent logs like these are usually **not** brute force:
@@ -392,18 +390,14 @@ Frequent logs like these are usually **not** brute force:
 
 These typically indicate **hardware/driver/power instability**, not attacks.
 
----
-
 # What *can* indicate brute force:
-
-## You may suspect brute force if you observe:
+You may suspect brute force if you observe
 
 ## Authentication Logs:
 
 Check under: `Status > System Logs > System > Authentication`
 Look for entries like: sshd[xxxx]: Failed password for invalid user admin from 192.168.1.100 port 51822 ssh2
 Or repeated entries like: webConfigurator authentication error for 'admin' from 192.168.1.100
-
 
 ### 🔥 Firewall Logs:
 
@@ -415,16 +409,12 @@ Suspicious patterns:
 - Targeting ports like 22 (SSH), 443 (WebGUI), 500 (IPsec), 1194 (OpenVPN)
 - Multiple attempts using various usernames (admin, root, guest, etc.)
 
----
-
 ## Signs of Attack Behavior
 
 - Rapid connection attempts over seconds/minutes
 - Numerous failed login attempts
 - Attempts from foreign IPs (especially if not part of your own network)
 - Attempts targeting open service ports (SSH, WebGUI, VPN, etc.)
-
----
 
 ## ✅ Recommended Hardening
 
@@ -434,8 +424,6 @@ Suspicious patterns:
 -  Limit login attempts (WebGUI has internal delay mechanism)
 -  Use strong passwords or key-based login only
 -  Install `sshguard` or similar tools to block failed login sources (FreeBSD-compatible)
-
----
 
 # Useful Commands
 
@@ -450,7 +438,7 @@ To monitor live logs:
 
 # Final Tip
 
-## - Just because interfaces drop (like ue0 flapping) doesn't mean you're under attack. Always check logs from the authentication and firewall sections to confirm external brute force activity.
+> Just because interfaces drop (like ue0 flapping) doesn't mean you're under attack. Always check logs from the authentication and firewall sections to confirm external brute force activity.
 
 ---
 
