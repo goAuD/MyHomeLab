@@ -441,6 +441,74 @@ To monitor live logs:
 
 > Just because interfaces drop (like ue0 flapping) doesn't mean you're under attack. Always check logs from the authentication and firewall sections to confirm external brute force activity.
 
+# Final Conclusions and Reasons Behind the Decision
+
+## 1. Stability Issues – Continuous Overheating
+
+The old HP laptop (from 2017, AMD A9-9410, 2 cores) turned out to be underpowered and prone to overheating, which led to system instability.
+
+Due to thermal issues, the system would occasionally slow down or crash entirely, disrupting continuous network services.
+
+---
+
+## 2. Network Interruptions – USB-LAN Adapter Instability
+
+The pfSense WAN interface was running via a USB Ethernet adapter (AX88179 chipset), which frequently disconnected from the system (link down/up events).
+
+This unstable USB hardware connection caused major disruptions in network connectivity.
+
+The root cause was partially related to inconsistent USB power delivery. Attempts were made to improve the situation with USB port changes and an external powered USB hub, but no permanent fix was found.
+
+---
+
+## 3. ISP 5G Internet Connection Instability
+
+The internet access was based on an ISP-provided 5G connection, which occasionally dropped due to external factors like storms or interference.
+
+This type of instability was outside the system’s control and difficult to mitigate, especially given the limitations of the old pfSense laptop setup.
+
+---
+
+## 4. Tailscale Performance – Stable but Not a Hardware Firewall Replacement
+
+Tailscale VPN continues to work flawlessly across all clients, which is great.
+
+However, Tailscale cannot replace the physical firewall/router in terms of stability, performance, and comprehensive network features.
+
+While Tailscale remains a key part of the overall network security model, a physical firewall is still necessary to ensure baseline protection.
+
+---
+
+## 5. Workarounds and Their Limitations
+
+Using an external USB hub and switching USB ports helped reduce adapter dropouts but didn’t solve the issue completely.
+
+Although pfSense remained functional, the laptop’s limited performance prevented optimal operation of certain services.
+
+Additionally, even after updates or reinstallations, the system experienced periodic reboots, which is unacceptable for an always-on infrastructure.
+
+---
+
+## 6. The Decision to Decommission the Laptop
+
+Given all the issues above, the safest and most effective choice was to remove the laptop from the critical network infrastructure.
+
+This resolved most of the instability, although it required reorganizing parts of the HomeLab environment.
+
+Tailscale now handles secure remote access and basic network segmentation, but acquiring a dedicated, stable router is the next key milestone.
+
+---
+
+## Summary Table
+
+| Problem                         | Root Cause                                | Workaround & Result                           | Final Decision                        |
+|----------------------------------|--------------------------------------------|-----------------------------------------------|----------------------------------------|
+| Overheating                     | Old laptop, insufficient cooling           | No reliable fix; system crashes or reboots    | Decommissioned the laptop              |
+| USB Ethernet Adapter Instability | Weak USB power, hardware limitation        | Port changes, powered USB hub                 | Not stable enough for long-term use    |
+| 5G Internet Instability         | External ISP-related issues                | Tailscale exit node as workaround             | Need for reliable hardware             |
+| System Stability                | Limited CPU performance, overheating       | Frequent reboots and errors                   | Removed from the network               |
+
+
 ---
 
 <details>
