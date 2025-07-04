@@ -417,7 +417,7 @@ Suspicious patterns:
 - Attempts from foreign IPs (especially if not part of your own network)
 - Attempts targeting open service ports (SSH, WebGUI, VPN, etc.)
 
-## ✅ Recommended Hardening
+## Recommended Hardening
 
 -  **Disable SSH** if not used: `System > Advanced > Admin Access`
 -  **Restrict WebGUI to LAN only**
@@ -440,6 +440,8 @@ To monitor live logs:
 # Final Tip
 
 > Just because interfaces drop (like ue0 flapping) doesn't mean you're under attack. Always check logs from the authentication and firewall sections to confirm external brute force activity.
+
+---
 
 # Final Conclusions and Reasons Behind the Decision
 
